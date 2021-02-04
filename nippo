@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+NIPPO_CONFIG_PATH=~/.nippo
+if [ ! -f "$NIPPO_CONFIG_PATH" ] ; then
+  echo 'config file not found: $NIPPO_NIPPO_CONFIG_PATH; create it, before generating nippo. quit.'
+  exit 1
+fi
+
+### load config: set env variables
+source "$NIPPO_CONFIG_PATH" > /dev/null
+if [ ! -z "$NIPPO_DEBUG" ] ; then
+  echo $NIPPO_SEND_RECIPIENT_ADDRESS
+  echo $NIPPO_USER
+  echo $NIPPO_SUBJ_PREFIX
+  echo $NIPPO_MD_PATH
+  echo $NIPPO_EDITOR
+  echo $NIPPO_DO_COPY
+  echo $NIPPO_COPY_FILE
+fi
+
+### if on Mac: enable clipboard copy
+NIPPO_CLIPBOARD_COPY=0
+if [ "$(uname)" == "Darwin" ] ; then
+  NIPPO_CLIPBOARD_COPY=1
+fi
+
+dateformat(){
+  DATE_STRING_FORMAT="MON/DATE"
+  MONTH=$(date +%m)
+  DATE=$(date +%d)
+  echo $DATE_STRING_FORMAT | sed -e "s:MON:$MONTH:" | sed -e "s:DATE:$DATE:"
+}
+
+subjformat(){
+  NIPPO_SUBJ_FORMAT="PREFIX DATESTR FROMNAME ()"
+  echo "$NIPPO_SEND_RECIPIENT_ADDRESS"
+  echo $NIPPO_SUBJ_FORMAT | sed -e "s/PREFIX/$NIPPO_SUBJ_PREFIX/" | \
+    sed -e "s:DATESTR:$(dateformat):" | \
+    sed -e "s/FROMNAME/$NIPPO_USER/"
+}
+
+copytemplatefile(){
+  echo -n '> '
+  read -r PROMPTVAR
+  cat $NIPPO_COPY_FILE | pbcopy
+}
+
+subjformat
+if [ $NIPPO_CLIPBOARD_COPY -eq 1 ] && [ $(uname) == "Darwin" ] ; then
+  subjformat | pbcopy
+  copytemplatefile
+fi
+
+$NIPPO_EDITOR $NIPPO_MD_PATH

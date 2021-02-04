@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+NIPPO_SEND_RECIPIENT_ADDRESS=your-manager@example.com
+NIPPO_USER=your_name_in_subject
+NIPPO_SUBJ_PREFIX=work-report
+NIPPO_MD_PATH=path/to/your/markdown/text.md
+NIPPO_EDITOR=path/to/your/favorite/editor
+NIPPO_DO_COPY=false
+NIPPO_COPY_FILE=path/to/your/template.md

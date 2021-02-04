@@ -1,0 +1,45 @@
+powered by asciidoc
+
+== Timetable
+
+[cols="^1,^2,^2,5a", options="header"]
+|===
+|reporter |date |timewidth |note
+
+| your Name here
+| 2020-x-x
+| 10:50-20:20
+| x
+
+|===
+
+== work log
+
+=== work 1:
+
+* x
+
+=== work 2:
+
+* x
+
+== Problem & tweet
+
+=== Problem
+
+* x
+
+=== tweet
+
+* x
+
+
+=== lunch menu
+
+* x
+
+=== schedule / will do in later
+
+* x
+
+== EOR
